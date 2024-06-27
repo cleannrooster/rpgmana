@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "rpgmana:iolitering",
+    "rpgmana:vermillionring",
+    "rpgmana:ceruleanring",
+    "rpgmana:onyxring",
+    "rpgmana:onyx_awakened",
+    "rpgmana:vermillion_awakened",
+    "rpgmana:cerulean_awakened",
+    "rpgmana:iolite_awakened",
+    "rpgmana:unsetring"
+
+  ]
+}
