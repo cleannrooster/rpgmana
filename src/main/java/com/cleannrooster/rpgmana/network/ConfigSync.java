@@ -9,7 +9,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public  class ConfigSync {
-    public static Identifier ID = new Identifier(Rpgmana.MOD_ID, "config_sync");
+    public static Identifier ID = Identifier.of(Rpgmana.MOD_ID, "config_sync");
 
     public static PacketByteBuf write(ServerConfig config) {
         var gson = new Gson();

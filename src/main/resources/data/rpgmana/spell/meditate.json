@@ -1,0 +1,76 @@
+{
+  "school": "spell_power:arcane",
+  "range": 0.0,
+  "tier": 0,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 12.0,
+      "channel_ticks": 4,
+      "animation": "rpgmana:meditate",
+      "sound": {
+        "id": "spell_engine:generic_arcane_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_spell_float",
+          "origin": "FEET",
+          "shape": "CIRCLE",
+          "roll": 45.0,
+          "roll_offset": 45.0,
+          "count": 10.0,
+          "min_speed": 0.2,
+          "max_speed": 0.2,
+          "pre_spawn_travel": 10.0,
+          "color_rgba": 13434879,
+          "scale": 2.0
+        },
+        {
+          "particle_id": "spell_engine:magic_arcane_stripe_float",
+          "origin": "FEET",
+          "shape": "CIRCLE",
+          "roll": 45.0,
+          "roll_offset": 45.0,
+          "count": 10.0,
+          "min_speed": 0.02,
+          "max_speed": 0.02,
+          "pre_spawn_travel": 50.0,
+          "color_rgba": 13434879,
+          "scale": 2.0
+        },
+        {
+          "particle_id": "spell_engine:magic_arcane_spark_float",
+          "origin": "FEET",
+          "shape": "CIRCLE",
+          "roll": 45.0,
+          "roll_offset": 45.0,
+          "count": 10.0,
+          "min_speed": 0.02,
+          "max_speed": 0.02,
+          "pre_spawn_travel": 75.0,
+          "color_rgba": 13434879,
+          "scale": 2.0
+        }
+      ]
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "rpgmana:meditate",
+          "duration": 4,
+          "apply_mode": "SET",
+          "show_particles": false
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 12
+    }
+  }
+}

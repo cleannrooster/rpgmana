@@ -1,0 +1,44 @@
+{
+  "anvil_cost": 1,
+  "description": {
+    "translate": "enchantment.rpgmana.lucidity"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.10,
+          "per_level_above_first": 0.10
+        },
+        "attribute": "rpgmana:manaregen",
+        "id": "rpgmana:lucity_manaregen",
+        "operation": "add_multiplied_base"
+      },
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 10,
+          "per_level_above_first": 10
+        },
+        "attribute": "rpgmana:mana",
+        "id": "rpgmana:lucidity_mana",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 12,
+    "per_level_above_first": 11
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 11
+  },
+  "slots": [
+    "armor"
+  ],
+  "supported_items": "#minecraft:enchantable/armor",
+  "weight": 4
+}

@@ -11,7 +11,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.spell_engine.api.spell.Spell;
-import net.spell_power.api.enchantment.SpellPowerEnchanting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,12 +36,12 @@ public int timefull = 0;
 	@Override
 	public double getMaxMana() {
 		PlayerEntity player = (PlayerEntity) (Object) this;
-		return Rpgmana.config.basemana+Rpgmana.config.mana*(player.getAttributeValue(Rpgmana.MANA)+Rpgmana.config.manafuse*SpellPowerEnchanting.getEnchantmentLevel(Rpgmana.MANAFUSED,player,player.getMainHandStack()));
+		return Rpgmana.config.basemana+Rpgmana.config.mana*(player.getAttributeValue(Rpgmana.MANA_ATTRIBUTE));
 	}
 	public double getManaRegen(){
 		PlayerEntity living = (PlayerEntity) (Object) this;
 
-		return Rpgmana.config.manaregen*((1+0.05*Rpgmana.config.lucidity*0.2*(SpellPowerEnchanting.getEnchantmentLevel(Rpgmana.LUCIDITY,living,living.getMainHandStack()))+0.05*Rpgmana.config.resplendent*0.2*SpellPowerEnchanting.getEnchantmentLevel(Rpgmana.RESPLENDENT,living,living.getMainHandStack()))*living.getAttributeValue(Rpgmana.MANAREGEN)/20);
+		return Rpgmana.config.manaregen*(living.getAttributeValue(Rpgmana.MANA_REGEN_ATTRIBUTE)/20);
 	}
 	@Override
 	public List<ManaInstance> getManaInstances() {
@@ -68,15 +67,15 @@ public int timefull = 0;
 		}
 	}
 	@Inject(at = @At("TAIL"), method = "initDataTracker")
-	protected void initDataTrackerMana(CallbackInfo callbackInfo) {
+	protected void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
 		LivingEntity living = (LivingEntity) (Object) this;
-		living.getDataTracker().startTracking(CURRENTMANA, 0F);
+		builder.add(CURRENTMANA, 0F);
 	}
 		@Inject(method = "createPlayerAttributes", at = @At("RETURN"))
 	private static void addAttributesextraspellattributes_RETURN(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
-		info.getReturnValue().add(Rpgmana.MANA);
-			info.getReturnValue().add(Rpgmana.MANAREGEN);
-			info.getReturnValue().add(Rpgmana.MANACOST);
+		info.getReturnValue().add(Rpgmana.MANA_REGEN_ATTRIBUTE);
+			info.getReturnValue().add(Rpgmana.MANA_COST_ATTRIBUTE);
+			info.getReturnValue().add(Rpgmana.MANA_ATTRIBUTE);
 
 
 	}

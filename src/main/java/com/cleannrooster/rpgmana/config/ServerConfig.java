@@ -3,7 +3,6 @@ package com.cleannrooster.rpgmana.config;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
-import net.bettercombat.BetterCombat;
 
 import java.util.LinkedHashMap;
 
@@ -13,7 +12,7 @@ public class ServerConfig implements ConfigData {
     public ServerConfig(){}
     @Comment("Maximum Mana Modifier (Default: 1)")
     public  float mana = 1;
-    @Comment("Additional Base Mana (Default: 0)")
+    @Comment("ADD_VALUEal Base Mana (Default: 0)")
     public  float basemana = 0;
 
     @Comment("Mana Regen Modifier (Default: 1)")

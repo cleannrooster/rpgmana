@@ -4,12 +4,14 @@ import com.cleannrooster.rpgmana.Rpgmana;
 import com.google.common.collect.Multimap;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketItem;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,19 +27,23 @@ public class IoliteRing extends TrinketItem {
         this.modifier = modifier;
     }
 
-
-
-    public Multimap<EntityAttribute, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
-        var modifiers = super.getModifiers(stack, slot, entity, uuid);
+    @Override
+    public Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, Identifier slotIdentifier) {
+        var modifiers = super.getModifiers(stack,slot,entity,slotIdentifier);
         // +10% movement speed
-        modifiers.put(Rpgmana.MANAREGEN, new EntityAttributeModifier(modifier.getId(),modifier.getName(),modifier.getValue(),modifier.getOperation()));
+        modifiers.put(Rpgmana.MANA_REGEN_ATTRIBUTE, new EntityAttributeModifier(modifier.id(),modifier.value(),modifier.operation()));
         // If the player has access to ring slots, this will give them an extra one
+
         return modifiers;
     }
+
+
+
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("rpgmana.uniquerings"));
+
+        super.appendTooltip(stack, context, tooltip, type);
     }
 
 }

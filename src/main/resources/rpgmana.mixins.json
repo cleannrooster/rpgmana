@@ -5,11 +5,11 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"SpellCastMixin",
-		"ItemstackMixin",
 		"SpellcostMixin",
-		"BrewingRecipeRegistryMixin",
-		"LivingEntityMindovermatterMixin",
-		"SpellRegistryMixin"
+		"AmmoMixin",
+		"LivingMixin",
+		"DamageTrackerMixin",
+		"ServerPlayerEntityMixin"
 
 	],
 	"client": [

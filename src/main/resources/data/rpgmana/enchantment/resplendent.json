@@ -1,0 +1,44 @@
+{
+  "anvil_cost": 1,
+  "description": {
+    "translate": "enchantment.rpgmana.resplendent"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.20,
+          "per_level_above_first": 0.20
+        },
+        "attribute": "rpgmana:manaregen",
+        "id": "rpgmana:resplendent_manaregen",
+        "operation": "add_multiplied_base"
+      },
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 10,
+          "per_level_above_first": 10
+        },
+        "attribute": "rpgmana:mana",
+        "id": "rpgmana:resplendent_mana",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 12,
+    "per_level_above_first": 11
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 11
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#spell_power:enchantable/haste",
+ "weight": 4
+}

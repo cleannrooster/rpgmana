@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.spell_engine.internals.casting.SpellCasterClient;
@@ -15,37 +16,37 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class InGameHud  implements HudRenderCallback {
-	private static final Identifier manabar = new Identifier(Rpgmana.MOD_ID,"textures/gui/bar_mana.png");
-	private static final Identifier manabead = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead.png");
-	private static final Identifier manabead2= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead2.png");
-	private static final Identifier manabead3 = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead3.png");
-	private static final Identifier manabead4= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead4.png");
-	private static final Identifier manabead12 = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead12.png");
-	private static final Identifier manabead22= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead22.png");
-	private static final Identifier manabead32 = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead32.png");
-	private static final Identifier manabead42= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead42.png");
+	private static final Identifier manabar = Identifier.of(Rpgmana.MOD_ID,"textures/gui/bar_mana.png");
+	private static final Identifier manabead = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead.png");
+	private static final Identifier manabead2= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead2.png");
+	private static final Identifier manabead3 = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead3.png");
+	private static final Identifier manabead4= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead4.png");
+	private static final Identifier manabead12 = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead12.png");
+	private static final Identifier manabead22= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead22.png");
+	private static final Identifier manabead32 = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead32.png");
+	private static final Identifier manabead42= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead42.png");
 
-	private static final Identifier manabeadneg = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabeadneg.png");
-	private static final Identifier manabead2neg= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead2neg.png");
-	private static final Identifier manabead3neg = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead3neg.png");
-	private static final Identifier manabead4neg= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead4neg.png");
-	private static final Identifier manabead12neg = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead12neg.png");
-	private static final Identifier manabead22neg= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead22neg.png");
-	private static final Identifier manabead32neg = new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead32neg.png");
-	private static final Identifier manabead42neg= new Identifier(Rpgmana.MOD_ID,"textures/gui/manabead42neg.png");
-
-
-	private static final Identifier manabarneg = new Identifier(Rpgmana.MOD_ID,"textures/gui/bar_mana_neg.png");
-
-	private static final Identifier manaticks = new Identifier(Rpgmana.MOD_ID,"textures/gui/bar_ticks.png");
-	private static final Identifier manaback = new Identifier(Rpgmana.MOD_ID,"textures/gui/bar_back.png");
+	private static final Identifier manabeadneg = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabeadneg.png");
+	private static final Identifier manabead2neg= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead2neg.png");
+	private static final Identifier manabead3neg = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead3neg.png");
+	private static final Identifier manabead4neg= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead4neg.png");
+	private static final Identifier manabead12neg = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead12neg.png");
+	private static final Identifier manabead22neg= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead22neg.png");
+	private static final Identifier manabead32neg = Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead32neg.png");
+	private static final Identifier manabead42neg= Identifier.of(Rpgmana.MOD_ID,"textures/gui/manabead42neg.png");
 
 
-	public void onHudRender(DrawContext drawContext, float tickDelta) {
+	private static final Identifier manabarneg = Identifier.of(Rpgmana.MOD_ID,"textures/gui/bar_mana_neg.png");
+
+	private static final Identifier manaticks = Identifier.of(Rpgmana.MOD_ID,"textures/gui/bar_ticks.png");
+	private static final Identifier manaback = Identifier.of(Rpgmana.MOD_ID,"textures/gui/bar_back.png");
+
+
+	public void onHudRender(DrawContext drawContext, RenderTickCounter tickCounter) {
 
 		PlayerEntity playerEntity = MinecraftClient.getInstance().player;
 
-		if (playerEntity != null) {
+		if (playerEntity != null && playerEntity.getAttributeInstance(Rpgmana.MANA_ATTRIBUTE) != null) {
 			ManaInterface manaInterface = (ManaInterface) playerEntity;
 			if (manaInterface.getMaxMana() >= 1 && manaInterface.getTimeFull() < 60 && !(playerEntity instanceof SpellCasterClient client && client.isCastingSpell())) {
 				if(!Rpgmana.clientConfig.alt) {
@@ -155,6 +156,7 @@ public class InGameHud  implements HudRenderCallback {
 
 		}
 	}
+
 
 
 }

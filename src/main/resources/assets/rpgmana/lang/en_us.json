@@ -1,6 +1,8 @@
 {
   "itemGroup.rpgmana.general": "RPG Mana Items",
-  "rpgmana.manacost": "OR Mana Cost",
+  "rpgmana.manacost": "Mana Cost",
+  "item.rpgmana.mana": "Mana or Rune(s)",
+
   "item.rpgmana.unsetring": "Unset Ring",
   "item.rpgmana.ceruleanring": "Cerulean Ring",
   "item.rpgmana.vermillionring": "Vermillion Ring",
@@ -10,6 +12,9 @@
   "item.rpgmana.vermillion_awakened": "Awakened Vermillion Ring",
   "item.rpgmana.iolite_awakened": "Awakened Iolite Ring",
   "item.rpgmana.onyx_awakened": "Awakened Onyx Ring",
+  "item.rpgmana.manaflow_medallion": "Manaflow Medallion",
+  "item.rpgmana.eye_of_the_storm": "Eye of the Storm",
+
   "item.minecraft.potion.effect.borrowed_power": "Potion of Borrowed Power",
   "item.minecraft.splash_potion.effect.borrowed_power":  "Splash Potion of Borrowed Power",
   "item.minecraft.lingering_potion.effect.borrowed_power": "Lingering Potion of Borrowed Power",
@@ -19,6 +24,9 @@
   "item.minecraft.potion.effect.overdrive": "Potion of Magical Overdrive",
   "item.minecraft.splash_potion.effect.overdrive":  "Splash Potion of Magical Overdrive",
   "item.minecraft.lingering_potion.effect.overdrive": "Lingering Potion of Magical Overdrive",
+  "effect.rpgmana.meditate": "Meditate",
+  "effect.rpgmana.manastorm": "Mana Tempest",
+
   "effect.rpgmana.overdrive": "Magical Overdrive",
   "effect.rpgmana.magical_stability": "Magical Stability",
   "effect.rpgmana.borrowed_power": "Borrowed Power",
@@ -30,6 +38,10 @@
 
   "enchantment.rpgmana.lucidity": "Lucid",
   "enchantment.rpgmana.lucidity.desc": "Increases mana regeneration",
+  "spell.rpgmana.meditate.name": "Meditate",
+  "spell.rpgmana.meditate.description": "Meditate, increasing your maximum mana by 100%% and mana regen by 500%%, lingering for 4 seconds after you stop channeling. While Meditating, you spend 20 mana per damage taken, and take 50%% less damage while positive in mana.",
+  "spell.rpgmana.manastorm.name": "Mana Tempest",
+  "spell.rpgmana.manastorm.description": "Casting a spell gives you an additional stack of Mana Tempest for the next 4 seconds, increasing your mana cost by 10%%.",
 
   "enchantment.rpgmana.resplendent": "Resplendent",
   "enchantment.rpgmana.resplendent.desc": "Increases mana regeneration greatly",
@@ -37,8 +49,19 @@
   "enchantment.rpgmana.manastabilized": "Mana-Stabilized",
   "enchantment.rpgmana.manastabilized.desc": "Decreases mana cost",
 
-  "enchantment.rpgmana.inspiration": "Inspired",
-  "enchantment.rpgmana.inspiration.desc": "Increases mana cost",
+  "enchantment.rpgmana.inspired": "Inspired",
+  "enchantment.rpgmana.inspired.desc": "Increases mana cost greatly",
+
+  "enchantment.rpgmana.manawoven": "Manawoven",
+  "enchantment.rpgmana.manawoven.desc": "Increases mana cost",
+
+  "enchantment.rpgmana.cerulean": "Cerulean",
+  "enchantment.rpgmana.cerulean.desc": "Increases mana greatly",
+
+  "enchantment.rpgmana.azure": "Azure",
+  "enchantment.rpgmana.azure.desc": "Decreases mana cost greatly",
+  "attribute.name.rpgmana.mana_damage_reduction" : "Damage Reduction While Having Mana",
+  "attribute.name.rpgmana.mind_over_matter" : "Mana Spent per Damage Taken",
 
   "attribute.name.rpgmana.mindbarrier": "Mind Shielding",
   "attribute.name.rpgmana.mana" : "Mana",
@@ -50,5 +73,5 @@
   "desc.rpgmana.manaregen" : "You regenerate 8 mana per second baseline.",
   "desc.rpgmana.borrowed_power" : "Borrowed Power allows you to cast spells even when your mana is negative, but does not remove the cost. You take damage based on your mana debt at the end of the effect.",
   "rpgmana.uniquerings" : "Wearing more than one ring of the same type gives no further effect.",
-  "rpgmana.persecond" : " per second and on release"
+  "rpgmana.persecond" : " per second"
 }

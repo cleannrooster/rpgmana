@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "rpgmana:onyx_awakened",
+    "rpgmana:vermillion_awakened",
+    "rpgmana:cerulean_awakened",
+    "rpgmana:iolite_awakened",
+    "rpgmana:eye_of_the_storm"
+
+  ]
+}

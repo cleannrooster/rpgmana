@@ -1,7 +1,7 @@
 package com.cleannrooster.rpgmana.item;
 
 import com.cleannrooster.rpgmana.Rpgmana;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -13,6 +13,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.spell_engine.compat.trinkets.SpellScrollTrinketItem;
+import net.spell_engine.item.ScrollItem;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,12 +32,17 @@ public class ItemInit {
     public static Item VERMILLIONAMULET;
     public static Item IOLITEAMULET;
 
+
     public static Item ONYXAMULET;
     public static Item MANA;
 
-    public static RegistryKey<ItemGroup> KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),new Identifier(Rpgmana.MOD_ID,"generic"));
+    public static Item FOIBLE;
+    public static Item MANASTORM;
+
+
+    public static RegistryKey<ItemGroup> KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),Identifier.of(Rpgmana.MOD_ID,"generic"));
     private static Item registerItem(String name, Item item){
-        return Registry.register(Registries.ITEM, new Identifier(Rpgmana.MOD_ID,name),item);
+        return Registry.register(Registries.ITEM, Identifier.of(Rpgmana.MOD_ID,name),item);
     }
     private static void addItemToGroup(Item item){
         ItemGroupEvents.modifyEntriesEvent(KEY).register((content) -> {
@@ -43,29 +50,33 @@ public class ItemInit {
         });
     }
     public static void register() {
-        CERULEANRING = registerItem("ceruleanring", new CeruleanRing(new FabricItemSettings().maxCount(1), 40,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:mana", 40, EntityAttributeModifier.Operation.ADDITION)));
+        CERULEANRING = registerItem("ceruleanring", new CeruleanRing(new Item.Settings().maxCount(1), 40,new EntityAttributeModifier(Identifier.of("rpgmana:mana"), 40, EntityAttributeModifier.Operation.ADD_VALUE)));
         entryMap.put("rpgmana:ceruleanring",CERULEANRING);
-        IOLITERING = registerItem("iolitering", new IoliteRing(new FabricItemSettings().maxCount(1), 0.4F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:manaregen", 0.4F, EntityAttributeModifier.Operation.MULTIPLY_BASE)));
+        IOLITERING = registerItem("iolitering", new IoliteRing(new Item.Settings().maxCount(1), 0.4F,new EntityAttributeModifier(Identifier.of("rpgmana:manaregen"), 0.4F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)));
         entryMap.put("rpgmana:iolitering",IOLITERING);
 
-        VERMILLIONRING = registerItem("vermillionring", new VermillionRing(new FabricItemSettings().maxCount(1), -0.1F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:manacost", -0.1F, EntityAttributeModifier.Operation.MULTIPLY_BASE)));
+        VERMILLIONRING = registerItem("vermillionring", new VermillionRing(new Item.Settings().maxCount(1), -0.1F,new EntityAttributeModifier(Identifier.of("rpgmana:manacost"), -0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)));
         entryMap.put("rpgmana:vermillionring",VERMILLIONRING);
 
-        ONYXRING = registerItem("onyxring", new VermillionRing(new FabricItemSettings().maxCount(1), 0.2F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:manacost", 0.2F, EntityAttributeModifier.Operation.MULTIPLY_BASE)));
+        ONYXRING = registerItem("onyxring", new VermillionRing(new Item.Settings().maxCount(1), 0.2F,new EntityAttributeModifier(Identifier.of("rpgmana:manacost"), 0.2F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)));
         entryMap.put("rpgmana:onyxring",ONYXRING);
 
-        CERULEANAMULET = registerItem("cerulean_awakened", new CeruleanRing(new FabricItemSettings().maxCount(1), 80, new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:mana", 80, EntityAttributeModifier.Operation.ADDITION)));
+        CERULEANAMULET = registerItem("cerulean_awakened", new CeruleanRing(new Item.Settings().maxCount(1), 80, new EntityAttributeModifier(Identifier.of("rpgmana:mana"), 80, EntityAttributeModifier.Operation.ADD_VALUE)));
         entryMap.put("rpgmana:cerulean_awakened",CERULEANAMULET);
-        IOLITEAMULET = registerItem("iolite_awakened", new IoliteRing(new FabricItemSettings().maxCount(1), 0.8F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:manaregen", 0.8F, EntityAttributeModifier.Operation.MULTIPLY_BASE)));
+        IOLITEAMULET = registerItem("iolite_awakened", new IoliteRing(new Item.Settings().maxCount(1), 0.8F,new EntityAttributeModifier(Identifier.of("rpgmana:manaregen"), 0.8F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)));
         entryMap.put("rpgmana:iolite_awakened",IOLITEAMULET);
+        FOIBLE = registerItem("manaflow_medallion", new Medallion(new Item.Settings().maxCount(1),80,new EntityAttributeModifier(Identifier.of("rpgmana:mana"), 80, EntityAttributeModifier.Operation.ADD_VALUE)));
+        entryMap.put("rpgmana:manaflow_medallion",FOIBLE);
+        MANASTORM = registerItem("eye_of_the_storm", new Medallion(new Item.Settings().maxCount(1),80,new EntityAttributeModifier(Identifier.of("rpgmana:mana"), 80, EntityAttributeModifier.Operation.ADD_VALUE)));
+        entryMap.put("rpgmana:eye_of_the_storm",MANASTORM);
 
-        VERMILLIONAMULET = registerItem("vermillion_awakened", new VermillionRing(new FabricItemSettings().maxCount(1), -0.2F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:manacost", -0.2F, EntityAttributeModifier.Operation.MULTIPLY_BASE)));
+        VERMILLIONAMULET = registerItem("vermillion_awakened", new VermillionRing(new Item.Settings().maxCount(1), -0.2F,new EntityAttributeModifier(Identifier.of("rpgmana:manacost"), -0.2F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)));
         entryMap.put("rpgmana:vermillion_awakened",VERMILLIONAMULET);
-        ONYXAMULET = registerItem("onyx_awakened", new VermillionRing(new FabricItemSettings().maxCount(1), 0.4F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:manacost", 0.4F, EntityAttributeModifier.Operation.MULTIPLY_BASE)));
+        ONYXAMULET = registerItem("onyx_awakened", new VermillionRing(new Item.Settings().maxCount(1), 0.4F,new EntityAttributeModifier(Identifier.of("rpgmana:manacost"), 0.4F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)));
         entryMap.put("rpgmana:onyx_awakened",ONYXAMULET);
-        UNSETRING = registerItem("unsetring", new CeruleanRing(new FabricItemSettings().maxCount(1),20F,new EntityAttributeModifier(UUID.randomUUID(), "rpgmana:mana", 20, EntityAttributeModifier.Operation.ADDITION)));
+        UNSETRING = registerItem("unsetring", new CeruleanRing(new Item.Settings().maxCount(1),20F,new EntityAttributeModifier(Identifier.of("rpgmana:mana"), 20, EntityAttributeModifier.Operation.ADD_VALUE)));
         entryMap.put("rpgmana:unsetring",UNSETRING);
-        MANA = registerItem("mana", new Item(new FabricItemSettings()));
+        MANA = registerItem("mana", new Item(new Item.Settings()));
 
         RPGMANA = FabricItemGroup.builder()
                 .icon(() -> new ItemStack(MANA))
@@ -81,6 +92,8 @@ public class ItemInit {
         addItemToGroup(VERMILLIONAMULET);
         addItemToGroup(IOLITEAMULET);
         addItemToGroup(ONYXAMULET);
+        addItemToGroup(FOIBLE);
+        addItemToGroup(MANASTORM);
 
 
 
