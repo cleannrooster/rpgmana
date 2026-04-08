@@ -1,6 +1,5 @@
 package com.cleannrooster.rpgmana.client;
 
-import mod.azure.azurelib.common.internal.client.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -57,7 +56,7 @@ public class StormRenderer extends OrbitingEffectRenderer {
     }
     public void renderEffect(int amplifier, LivingEntity livingEntity, float delta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light) {
         matrixStack.push();
-        float time = (float)RenderUtils.getCurrentTick() + delta;
+        float time = (float)livingEntity.getWorld().getTime() + delta;
         float initialAngle = time * 2.25F - 45.0F;
         float horizontalOffset =  this.horizontalOffset * livingEntity.getScaleFactor();
 

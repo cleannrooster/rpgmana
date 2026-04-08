@@ -13,7 +13,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.spell_engine.compat.trinkets.SpellScrollTrinketItem;
 import net.spell_engine.item.ScrollItem;
 
 import java.util.HashMap;

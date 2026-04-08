@@ -8,13 +8,9 @@ import com.cleannrooster.rpgmana.config.ClientConfig;
 import com.cleannrooster.rpgmana.config.ClientConfigWrapper;
 import com.cleannrooster.rpgmana.config.ServerConfig;
 import com.cleannrooster.rpgmana.config.ServerConfigWrapper;
+import com.cleannrooster.rpgmana.internals.ManaInject;
 import com.cleannrooster.rpgmana.item.ItemInit;
 import com.cleannrooster.rpgmana.network.ConfigSync;
-import com.cleannrooster.spellblades.SpellbladesAndSuch;
-import com.cleannrooster.spellblades.effect.CustomEffect;
-import com.cleannrooster.spellblades.effect.DeathchillRenderer;
-import com.cleannrooster.spellblades.effect.Spellstrike;
-import com.extraspellattributes.api.SpellStatusEffect;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
@@ -35,7 +31,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.stat.Stat;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.spell_engine.api.effect.CustomModelStatusEffect;
+
 import net.spell_engine.api.effect.CustomStatusEffect;
 import net.spell_engine.api.effect.Synchronized;
 import net.spell_engine.api.render.CustomModels;
@@ -47,7 +43,6 @@ import net.spell_power.api.SpellPower;
 import net.spell_power.api.SpellPowerMechanics;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
-import net.tinyconfig.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,7 +141,7 @@ public class Rpgmana implements ModInitializer {
 				Identifier.of(MOD_ID, "projectile/manastorm")
 		));
 		STORM =  Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"manastorm"),new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xff4bdd).addAttributeModifier(MANA_COST_ATTRIBUTE,Identifier.of(MOD_ID,"manacost_storm"),0.1F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-
+        ManaInject.init();
 		AutoConfig.register(ServerConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
 		AutoConfig.register(ClientConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
 		config = AutoConfig.getConfigHolder(ServerConfigWrapper.class).getConfig().server;

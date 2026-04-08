@@ -54,117 +54,15 @@ import static net.spell_engine.internals.SpellHelper.*;
 @Mixin(SpellHelper.class)
 public class SpellCastMixin {
 
-    private static float getManaCost(PlayerEntity player, Spell spell, SpellCast.Action action, float progress){
-        if(spell.cost == null){
-            return 0;
-        }
-        if(spell.cost.item == null){
-            return 0;
-        }
-        if(spell.cost == null || (spell.cost.item.id == null || !spell.cost.item.id.contains("rune") ||  spell.cost.item.id.contains("arrow") || spell.cost.item.id.contains("bullet") || spell.cost.item.id.contains("jacket") || spell.cost.item.id.contains("round") || spell.cost.item.id.contains("cartrdge"))){
-            return 0;
-        }
-        float channelMultiplier = 1.0F;
-        switch (action) {
-            case CHANNEL:
-                channelMultiplier = channelValueMultiplier(spell);
-                break;
-            case RELEASE:
-                if (isChanneled(spell)) {
-                    channelMultiplier = 0F;
-                } else {
-                    channelMultiplier = progress >= 1.0F ? 1.0F : 0.0F;
-                }
 
-        }
-        ImpactContext context = new ImpactContext(channelMultiplier, 1.0F, (Vec3d)null, SpellPower.getSpellPower(spell.school, player), SpellTarget.FocusMode.DIRECT,0);
-        float coeff = 0;
-        int proj = 1;
-        if(spell.impacts != null && ((SpellcostMixinInterface) spell.cost).calculateManaCost() ==true) {
-
-            for (Spell.Impact impact : spell.impacts) {
-                if (impact.action != null && impact.action.damage != null) {
-                    coeff += impact.action.damage.spell_power_coefficient;
-                }
-            }
-            if (spell.impacts != null && spell.impacts.size() > 0) {
-                coeff /= spell.impacts.size();
-            }
-            if (spell.release != null && spell.target != null && spell.deliver != null && spell.deliver.projectile != null) {
-                proj += spell.deliver.projectile.launch_properties.extra_launch_count;
-            }
-        }
-        float mult = (float) (( player.getAttributeValue(Rpgmana.MANA_COST_ATTRIBUTE) * 0.01F));
-
-        return mult* context.total()*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
-                ((SpellcostMixinInterface)spell.cost).getManaCost());
-    }
-    private static boolean matches(String subject, String nullableRegex) {
-        if (subject == null) {
-            return false;
-        }
-        if (nullableRegex == null || nullableRegex.isEmpty()) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(nullableRegex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(subject);
-        return matcher.find();
-    }
      @Inject(at = @At("HEAD"), method = "attemptCasting", cancellable = true)
 
     private static void attemptCastingRPGMana(PlayerEntity player, ItemStack itemStack, Identifier spellId, CallbackInfoReturnable<SpellCast.Attempt> attemptCallbackInfoReturnable) {
-         if(  !matches(spellId.toString(),Rpgmana.config.blacklist_spell_casting_regex)) {
 
-             if(((ManaInterface)player).getMana() > 0 && (getManaCost(player,SpellRegistry.from(player.getWorld()).get(spellId), SpellCast.Action.RELEASE,1.0F)>  0  || getManaCost(player,SpellRegistry.from(player.getWorld()).get(spellId), SpellCast.Action.CHANNEL,1.0F) >  0)){
-                 attemptCallbackInfoReturnable.setReturnValue( attemptCasting(player, itemStack, spellId, false));
-
-             }
-         }
     }
     @Inject(at = @At("HEAD"), method = "performSpell", cancellable = true)
     private static void performSpellRPGMana(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo ci) {
-        if(getManaCost(player,spellEntry.value(), action,progress) > 0 &&   !matches(SpellRegistry.from(player.getWorld()).getId(spellEntry.value()).toString(),Rpgmana.config.blacklist_spell_casting_regex)) {
-            if( (getManaCost(player,spellEntry.value(), SpellCast.Action.RELEASE,1.0F) > 0 || getManaCost(player,spellEntry.value(), SpellCast.Action.CHANNEL,1.0F) > 0)) {
-                progress = Math.max(Math.min(progress, 1.0F), 0.0F);
-                float channelMultiplier = 1.0F;
-                boolean shouldPerformImpact = true;
-                switch (action) {
-                    case CHANNEL:
-                        channelMultiplier = channelValueMultiplier(spellEntry.value());
-                        break;
-                    case RELEASE:
-                        if (isChanneled(spellEntry.value())) {
-                            channelMultiplier = 1.0F;
-                        } else {
-                            channelMultiplier = progress >= 1.0F ? 1.0F : 0.0F;
-                        }
 
-                }
-                float finalProgress = progress;
-                SpellCast.Attempt attempt = attemptCasting(player, player.getMainHandStack(), SpellRegistry.from(player.getWorld()).getId(spellEntry.value()));
-                if (attempt.isSuccess()) {
-                    if(!(spellEntry.value().target.type.equals(Spell.Target.Type.AIM) && spellEntry.value().target.aim != null && spellEntry.value().target.aim.required && targetResult.entities().isEmpty())) {
-                            if(((ManaInterface)player).getMana() > 0) {
-                                ((WorldScheduler) world).schedule(1, () -> {
-                                    if (player instanceof SpellCasterEntity casterEntity && player instanceof ManaInterface manaInterface) {
-
-
-                                        manaInterface.spendMana(-getManaCost(player, spellEntry.value(), action, finalProgress));
-                                    }
-                                });
-                            }
-
-                    }
-                }
-                else{
-                    SpellCastSyncHelper.clearCasting(player);
-                    if (player instanceof SpellCasterEntity casterEntity && player instanceof ManaInterface manaInterface) {
-                        SpellHelper.imposeCooldown(player, SpellContainerSource.getFirstSourceOfSpell(SpellRegistry.from(player.getWorld()).getId(spellEntry.value()), player)
-                                , SpellRegistry.from(player.getWorld()).getId(spellEntry.value()), spellEntry, 1.0F);
-                    }
-                }
-            }
-        }
     }
 
  /*   @Inject(at = @At("HEAD"), method = "ammoForSpell", cancellable = true)

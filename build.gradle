@@ -27,7 +27,7 @@ repositories {
 			includeGroup 'maven.modrinth'
 		}
 	}
-	maven {url 'https://libs.azuredoom.com:4443/mods'}
+	//maven {url 'https://libs.azuredoom.com:4443/mods'}
 
 	maven { url 'https://maven.kosmx.dev/' }
 	maven { url 'https://maven.shedaniel.me/' }
@@ -61,13 +61,17 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-fabric")
-	include(implementation("com.github.ZsoltMolnarrr:TinyConfig:${project.tiny_config_version}"))
+    modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-fabric")
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}")
+    modImplementation("maven.modrinth:structure-pool-api:${project.structure_pool_api_version}")
 
+    modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}")
+    modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim_version}")
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation fileTree(dir: "run/mods", includes: ['*.jar'])
+    modImplementation("maven.modrinth:runes:${project.runes_version}")
 
 }
 

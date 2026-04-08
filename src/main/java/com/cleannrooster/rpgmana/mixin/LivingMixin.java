@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.extraspellattributes.ReabsorptionInit.WARDING;
 
 @Mixin(LivingEntity.class)
 public class LivingMixin {

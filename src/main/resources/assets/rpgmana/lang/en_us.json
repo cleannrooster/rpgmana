@@ -73,5 +73,5 @@
   "desc.rpgmana.manaregen" : "You regenerate 8 mana per second baseline.",
   "desc.rpgmana.borrowed_power" : "Borrowed Power allows you to cast spells even when your mana is negative, but does not remove the cost. You take damage based on your mana debt at the end of the effect.",
   "rpgmana.uniquerings" : "Wearing more than one ring of the same type gives no further effect.",
-  "rpgmana.persecond" : " per second"
+  "rpgmana.persecond" : " upon release"
 }
