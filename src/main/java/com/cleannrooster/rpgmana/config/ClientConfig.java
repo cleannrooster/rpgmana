@@ -9,6 +9,7 @@ public class ClientConfig implements ConfigData {
     public ClientConfig(){}
     @Comment("Alternate Mana Bar (Default: false)")
     public  boolean alt = false;
-
+    @Comment("Remove EXP bar while mana bar is up (Default: true)")
+    public  boolean noEXP = true;
 
 }

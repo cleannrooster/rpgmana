@@ -9,8 +9,8 @@
 		"AmmoMixin",
 		"LivingMixin",
 		"DamageTrackerMixin",
-		"ServerPlayerEntityMixin"
-
+		"ServerPlayerEntityMixin",
+        "InGameHudMixin"
 	],
 	"client": [
 		"SpellTooltipMixin"

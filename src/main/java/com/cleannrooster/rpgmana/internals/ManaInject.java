@@ -4,7 +4,9 @@ import com.cleannrooster.rpgmana.Rpgmana;
 import com.cleannrooster.rpgmana.api.ManaInterface;
 import com.cleannrooster.rpgmana.api.SpellcostMixinInterface;
 import com.cleannrooster.rpgmana.item.ItemInit;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -73,41 +75,44 @@ public class ManaInject {
         return matcher.find();
     }
     public static void init(){
-        SpellEvents.CASTING_ATTEMPT.PRE.register(args -> {
-            var player = args.caster();
-            var spellEntry = args.spell();
-            var spellId = spellEntry.getIdAsString();
-            var itemStack = player.getStackInHand(Hand.MAIN_HAND);
-            if(  !matches(spellId,Rpgmana.config.blacklist_spell_casting_regex)) {
+        ServerPlayConnectionEvents.INIT.register((handler, server) -> {
+            SpellEvents.CASTING_ATTEMPT.POST.register(args -> {
+                var player = args.caster();
+                var spellEntry = args.spell();
+                var spellId = spellEntry.getIdAsString();
+                var itemStack = player.getStackInHand(Hand.MAIN_HAND);
+                if(!(itemStack.getItem() instanceof RangedWeaponItem) &&   !matches(spellId,Rpgmana.config.blacklist_spell_casting_regex)) {
 
-                if( (getManaCost(player,SpellRegistry.from(player.getWorld()).get(Identifier.tryParse(spellId)), SpellCast.Action.RELEASE,1.0F)>  0  || getManaCost(player,SpellRegistry.from(player.getWorld()).get(Identifier.tryParse(spellId)), SpellCast.Action.CHANNEL,1.0F) >  0)){
-                   if(((ManaInterface)player).getMana() > 0) {
-                       return (attemptCasting(player, itemStack, Identifier.tryParse(spellId), false));
-                   }
-                   else{
-                       return  SpellCast.Attempt.failMissingItem(new SpellCast.Attempt.MissingItemInfo(Ammo.Searched.from("rpgmana:mana")));
-                   }
+                    if( (getManaCost(player,SpellRegistry.from(player.getWorld()).get(Identifier.tryParse(spellId)), SpellCast.Action.RELEASE,1.0F)>  0  || getManaCost(player,SpellRegistry.from(player.getWorld()).get(Identifier.tryParse(spellId)), SpellCast.Action.CHANNEL,1.0F) >  0)){
+                        if(((ManaInterface)player).getMana() > 0) {
+                            return (attemptCasting(player, itemStack, Identifier.tryParse(spellId), false));
+                        }
+                        else{
+                            return  attemptCasting(player, itemStack, Identifier.tryParse(spellId), true);
+                        }
 
-                }
-            }
-            return attemptCasting(player, itemStack, Identifier.tryParse(spellId), true);
-        });
-
-        SpellEvents.COST_CONSUME.register(args -> {
-            var player = args.caster();
-            var spellEntry = args.spell();
-            var action = SpellCast.Action.RELEASE;
-            var progress =  1.0F;
-            var world = player.getWorld();
-            var  ammoResult = Ammo.ammoForSpell(player, spellEntry.value(), args.itemStack());
-
-            if(ammoResult.item().item() != null && ammoResult.item().item().equals(ItemInit.MANA) &&  getManaCost(player,spellEntry.value(), action,progress) > 0 &&   !matches(SpellRegistry.from(player.getWorld()).getId(spellEntry.value()).toString(), Rpgmana.config.blacklist_spell_casting_regex)) {
-                if( (getManaCost(player,spellEntry.value(), SpellCast.Action.RELEASE,1.0F) > 0 )) {
-                    if (player instanceof SpellCasterEntity casterEntity && player instanceof ManaInterface manaInterface) {
-                        manaInterface.spendMana(-getManaCost(player, spellEntry.value(), action, progress));
                     }
                 }
-            }
+                return attemptCasting(player, itemStack, Identifier.tryParse(spellId), true);
+            });
+
+            SpellEvents.COST_CONSUME.register(args -> {
+                var player = args.caster();
+                var spellEntry = args.spell();
+                var action = SpellCast.Action.RELEASE;
+                var progress =  1.0F;
+                var world = player.getWorld();
+                var  ammoResult = Ammo.ammoForSpell(player, spellEntry.value(), args.itemStack());
+
+                if(!(args.itemStack().getItem() instanceof RangedWeaponItem) && ammoResult.item() != null && ammoResult.item().item() != null && ammoResult.item().item().equals(ItemInit.MANA) &&  getManaCost(player,spellEntry.value(), action,progress) > 0 &&   !matches(SpellRegistry.from(player.getWorld()).getId(spellEntry.value()).toString(), Rpgmana.config.blacklist_spell_casting_regex)) {
+                    if( (getManaCost(player,spellEntry.value(), SpellCast.Action.RELEASE,1.0F) > 0 )) {
+                        if (player instanceof SpellCasterEntity casterEntity && player instanceof ManaInterface manaInterface) {
+                            manaInterface.spendMana(-getManaCost(player, spellEntry.value(), action, progress));
+                        }
+                    }
+                }
+            });
         });
+
     }
 }

@@ -20,7 +20,7 @@ public class RpgmanaClient implements ClientModInitializer {
     public void onInitializeClient() {
         CustomModelStatusEffect.register(STORM.value(), new StormRenderer());
 
-        HudRenderCallback.EVENT.register(new InGameHud());
+       // HudRenderCallback.EVENT.register(new InGameHud());
 /*        ClientPlayNetworking.registerGlobalReceiver(ConfigSync.ID, (client, handler, buf, responseSender) -> {
             var config = ConfigSync.read(buf);
             Rpgmana.config = config;

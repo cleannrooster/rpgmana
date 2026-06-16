@@ -42,18 +42,7 @@ public class AmmoMixin {
             return 0;
         }
         float channelMultiplier = 1.0F;
-        switch (action) {
-            case CHANNEL:
-                channelMultiplier = channelValueMultiplier(spell);
-                break;
-            case RELEASE:
-                if (isChanneled(spell)) {
-                    channelMultiplier = 0F;
-                } else {
-                    channelMultiplier = progress >= 1.0F ? 1.0F : 0.0F;
-                }
 
-        }
         SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(channelMultiplier, 1.0F, (Vec3d)null, SpellPower.getSpellPower(spell.school, player), SpellTarget.FocusMode.DIRECT,0);
         float coeff = 0;
         int proj = 1;
@@ -90,7 +79,7 @@ public class AmmoMixin {
 
     @Inject(at = @At("HEAD"), method = "ammoForSpell", cancellable = true)
     private static void ammoForSpellRPG(PlayerEntity player, Spell spell, ItemStack casterStack, CallbackInfoReturnable<Ammo.Result> cir) {
-        if(  !matches(SpellRegistry.from(player.getWorld()).getId(spell).toString(), Rpgmana.config.blacklist_spell_casting_regex)) {
+        if(((ManaInterface)player).getMana() > 0 &&  !matches(SpellRegistry.from(player.getWorld()).getId(spell).toString(), Rpgmana.config.blacklist_spell_casting_regex)) {
             if(spell.cost != null && spell.cost.item != null && ((ManaInterface)player).getMana() > 0 && (getManaCost(player,spell, SpellCast.Action.RELEASE,1.0F) > 0 || getManaCost(player,spell, SpellCast.Action.CHANNEL,1.0F) > 0)) {
                 cir.setReturnValue(new Ammo.Result(true, Ammo.Searched.from("rpgmana:mana"), 0, List.of()));
             }
