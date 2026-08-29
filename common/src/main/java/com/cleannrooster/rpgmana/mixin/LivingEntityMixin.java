@@ -36,11 +36,17 @@ public int timefull = 0;
 	@Override
 	public double getMaxMana() {
 		PlayerEntity player = (PlayerEntity) (Object) this;
+		if (Rpgmana.MANA_ATTRIBUTE == null || !player.getAttributes().hasAttribute(Rpgmana.MANA_ATTRIBUTE)) {
+			return Rpgmana.config != null ? Rpgmana.config.basemana : 0;
+		}
 		return Rpgmana.config.basemana+Rpgmana.config.mana*(player.getAttributeValue(Rpgmana.MANA_ATTRIBUTE));
 	}
 	public double getManaRegen(){
 		PlayerEntity living = (PlayerEntity) (Object) this;
 
+		if (Rpgmana.MANA_REGEN_ATTRIBUTE == null || !living.getAttributes().hasAttribute(Rpgmana.MANA_REGEN_ATTRIBUTE)) {
+			return 0;
+		}
 		return Rpgmana.config.manaregen*(living.getAttributeValue(Rpgmana.MANA_REGEN_ATTRIBUTE)/20);
 	}
 	@Override
@@ -73,6 +79,10 @@ public int timefull = 0;
 	}
 		@Inject(method = "createPlayerAttributes", at = @At("RETURN"))
 	private static void addAttributesextraspellattributes_RETURN(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
+		// skip if the player supplier is somehow built before our attributes register (NeoForge early loading)
+		if (Rpgmana.MANA_ATTRIBUTE == null) {
+			return;
+		}
 		info.getReturnValue().add(Rpgmana.MANA_REGEN_ATTRIBUTE);
 			info.getReturnValue().add(Rpgmana.MANA_COST_ATTRIBUTE);
 			info.getReturnValue().add(Rpgmana.MANA_ATTRIBUTE);

@@ -20,7 +20,8 @@ public class DamageTrackerMixin {
     @Inject(at = @At("HEAD"), method = "onDamage", cancellable = true)
     public void onDamageRPGMana(DamageSource damageSource, float damage, CallbackInfo ci) {
         DamageTracker tracker = (DamageTracker) (Object) this;
-        if( entity.getAttributeValue(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE) > 0 &&  entity instanceof ManaInterface manaInterface){
+        if( Rpgmana.MIND_OVER_MATTER_ATTRIBUTE != null && entity.getAttributes().hasAttribute(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE)
+                && entity.getAttributeValue(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE) > 0 &&  entity instanceof ManaInterface manaInterface){
             double multiplier =  entity.getAttributeValue(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE);
             manaInterface.spendMana(-Math.max(0,damage*multiplier));
         }

@@ -17,7 +17,9 @@ public class ServerPlayerEntityMixin {
     @Inject(at = @At("HEAD"), method = "increaseStat")
     public void increaseStatRPGManaAbsorbed(Identifier stat, int amount, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object)this;
-        if(player instanceof ServerPlayerEntity serverPlayerEntity && stat.equals(Stats.DAMAGE_ABSORBED)&&  player.getAttributeValue(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE) > 0  && player instanceof ManaInterface manaInterface){
+        if(player instanceof ServerPlayerEntity serverPlayerEntity && stat.equals(Stats.DAMAGE_ABSORBED)
+                && Rpgmana.MIND_OVER_MATTER_ATTRIBUTE != null && player.getAttributes().hasAttribute(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE)
+                && player.getAttributeValue(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE) > 0  && player instanceof ManaInterface manaInterface){
             double multiplier =  player.getAttributeValue(Rpgmana.MIND_OVER_MATTER_ATTRIBUTE);
             manaInterface.spendMana(-multiplier*amount/10.0F);
         }

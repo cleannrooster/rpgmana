@@ -27,6 +27,12 @@ import java.util.List;
 public class LivingMixin {
 	@Inject(at = @At("RETURN"), method = "createLivingAttributes")
 	private static void createLivingAttributesRPGMANA(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
+		// On NeoForge, Connector-translated Fabric mods can build attribute suppliers during
+		// early mod loading, before our RegisterEvent has run — skip instead of NPEing on
+		// the still-null registry references.
+		if (Rpgmana.MANA_ATTRIBUTE == null) {
+			return;
+		}
 		cir.getReturnValue().add(Rpgmana.MANA_ATTRIBUTE);
 		cir.getReturnValue().add(Rpgmana.MANA_COST_ATTRIBUTE);
 		cir.getReturnValue().add(Rpgmana.MANA_REGEN_ATTRIBUTE);
@@ -38,7 +44,8 @@ public class LivingMixin {
 	protected float modifyAppliedDamageRPGMana(float amount, DamageSource source, float originalAmount) {
 		LivingEntity living = (LivingEntity) (Object) this;
 		amount = originalAmount;
-		if(living.getAttributeValue(Rpgmana.MANA_DAMAGE_TAKEN_ATTRIBUTE) > 100F && living instanceof ManaInterface manaInterface && manaInterface.getMana() > 0){
+		if(Rpgmana.MANA_DAMAGE_TAKEN_ATTRIBUTE != null && living.getAttributes().hasAttribute(Rpgmana.MANA_DAMAGE_TAKEN_ATTRIBUTE)
+				&& living.getAttributeValue(Rpgmana.MANA_DAMAGE_TAKEN_ATTRIBUTE) > 100F && living instanceof ManaInterface manaInterface && manaInterface.getMana() > 0){
 			double multiplier =  ((living.getAttributeValue(Rpgmana.MANA_DAMAGE_TAKEN_ATTRIBUTE)-100F)*0.01F);
 			amount *= Math.max(0,1F-(float) multiplier);
 		}
