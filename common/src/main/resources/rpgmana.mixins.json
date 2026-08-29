@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "com.cleannrooster.rpgmana.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"LivingEntityMixin",
+		"SpellcostMixin",
+		"AmmoMixin",
+		"LivingMixin",
+		"DamageTrackerMixin",
+		"ServerPlayerEntityMixin"
+	],
+	"client": [
+		"SpellTooltipMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

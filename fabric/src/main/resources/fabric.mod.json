@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "rpgmana",
+	"version": "${version}",
+	"name": "rpgmana",
+	"description": "Mana brought to the RPG Series",
+	"authors": [
+		"cleannrooster"
+	],
+	"contact": {
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/rpgmana/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.cleannrooster.rpgmana.fabric.FabricMod"
+		],
+		"client": [
+			"com.cleannrooster.rpgmana.fabric.client.FabricClientMod"
+		],
+		"modmenu": [
+			"com.cleannrooster.rpgmana.fabric.client.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"rpgmana.mixins.json",
+		"rpgmana-fabric.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.9",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*",
+		"spell_engine": ">=1.7.0",
+		"runes": ">=0.9.11",
+		"spell_power": ">=0.10.2",
+		"trinkets": ">=3.7.0"
+	}
+}
