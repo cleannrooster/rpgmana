@@ -48,7 +48,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static net.spell_engine.internals.SpellHelper.*;
+import static net.spell_engine.internals.SpellExecution.*;
+import static net.spell_engine.internals.SpellParameters.*;
+import static net.spell_engine.internals.casting.SpellCasting.attempt;
 
 public class Rpgmana implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
@@ -119,7 +121,7 @@ public class Rpgmana implements ModInitializer {
 		}
 		float mult = (float) ((player.getAttributeValue(Rpgmana.MANA_COST_ATTRIBUTE) * 0.01F));
 
-		return mult* context.total()*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
+		return mult* context.total(null)*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
 				((SpellcostMixinInterface)spell.cost).getManaCost());
 	}
 	public static  RegistryEntry.Reference<StatusEffect> STORM;

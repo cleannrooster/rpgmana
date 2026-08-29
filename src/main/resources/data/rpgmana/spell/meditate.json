@@ -7,10 +7,15 @@
     "scroll": {},
     "cast": {
       "duration": 12.0,
-      "channel_ticks": 4,
-      "animation": {"id": "rpgmana:meditate"},
+      "animation": {
+        "id": "rpgmana:meditate"
+      },
       "sound": {
         "id": "spell_engine:generic_arcane_casting"
+      },
+      "type": "CHANNEL",
+      "channel": {
+        "ticks": 4
       }
     }
   },

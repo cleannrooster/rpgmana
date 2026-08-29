@@ -10,8 +10,8 @@ import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.fx.SpellEngineParticles;
-import net.spell_engine.internals.Ammo;
-import net.spell_engine.internals.SpellHelper;
+import net.spell_engine.internals.cost.Ammo;
+import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.target.SpellTarget;
 import net.spell_power.api.SpellPower;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.spell_engine.internals.SpellHelper.channelValueMultiplier;
-import static net.spell_engine.internals.SpellHelper.isChanneled;
+import static net.spell_engine.internals.SpellParameters.channelValueMultiplier;
+import static net.spell_engine.internals.SpellParameters.isChanneled;
 
 @Mixin(Ammo.class)
 public class AmmoMixin {
@@ -43,7 +43,7 @@ public class AmmoMixin {
         }
         float channelMultiplier = 1.0F;
 
-        SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(channelMultiplier, 1.0F, (Vec3d)null, SpellPower.getSpellPower(spell.school, player), SpellTarget.FocusMode.DIRECT,0);
+        SpellExecution.ImpactContext context = new SpellExecution.ImpactContext(channelMultiplier, 1.0F, (Vec3d)null, SpellPower.getSpellPower(spell.school, player), SpellTarget.FocusMode.DIRECT,0);
         float coeff = 0;
         int proj = 1;
         if(spell.impacts != null && ((SpellcostMixinInterface) spell.cost).calculateManaCost() ==true) {
@@ -62,7 +62,7 @@ public class AmmoMixin {
         }
         float mult = (float) ((player.getAttributeValue(Rpgmana.MANA_COST_ATTRIBUTE) * 0.01F));
 
-        return mult* context.total()*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
+        return mult* context.total(null)*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
                 ((SpellcostMixinInterface)spell.cost).getManaCost());
     }
     private static boolean matches(String subject, String nullableRegex) {

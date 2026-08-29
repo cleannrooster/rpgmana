@@ -7,9 +7,9 @@ import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 @Config(name = "client")
 public class ClientConfig implements ConfigData {
     public ClientConfig(){}
-    @Comment("Alternate Mana Bar (Default: false)")
+    @Comment("Alternate Mana Bar when the mana globe is disabled (Default: false)")
     public  boolean alt = false;
     @Comment("Remove EXP bar while mana bar is up (Default: true)")
-    public  boolean noEXP = true;
+    public  boolean noEXP = false;
 
 }

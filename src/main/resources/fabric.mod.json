@@ -21,6 +21,9 @@
 		"client": [
 			"com.cleannrooster.rpgmana.RpgmanaClient"
 
+		],
+		"modmenu": [
+			"com.cleannrooster.rpgmana.client.ModMenuIntegration"
 		]
 	},
 	"mixins": [

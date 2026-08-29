@@ -73,5 +73,16 @@
   "desc.rpgmana.manaregen" : "You regenerate 8 mana per second baseline.",
   "desc.rpgmana.borrowed_power" : "Borrowed Power allows you to cast spells even when your mana is negative, but does not remove the cost. You take damage based on your mana debt at the end of the effect.",
   "rpgmana.uniquerings" : "Wearing more than one ring of the same type gives no further effect.",
-  "rpgmana.persecond" : " upon release"
+  "rpgmana.persecond" : " upon release",
+  "text.autoconfig.rpgmana.title" : "RPG Mana",
+  "text.autoconfig.rpgmana.category.server" : "Server",
+  "text.autoconfig.rpgmana.option.server.mana" : "Maximum Mana Modifier",
+  "text.autoconfig.rpgmana.option.server.basemana" : "Additional Base Mana",
+  "text.autoconfig.rpgmana.option.server.manaregen" : "Mana Regen Modifier",
+  "text.autoconfig.rpgmana.option.server.inspiration" : "Inspiration Bonus (%)",
+  "text.autoconfig.rpgmana.option.server.lucidity" : "Lucidity Bonus (%)",
+  "text.autoconfig.rpgmana.option.server.manafuse" : "Manafused Bonus",
+  "text.autoconfig.rpgmana.option.server.manastabilized" : "ManaStabilized Bonus (%)",
+  "text.autoconfig.rpgmana.option.server.resplendent" : "Resplendent Bonus (%)",
+  "text.autoconfig.rpgmana.option.server.blacklist_spell_casting_regex" : "Mana Cost Blacklist Regex"
 }

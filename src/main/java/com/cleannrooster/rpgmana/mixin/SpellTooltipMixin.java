@@ -28,14 +28,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.spell_engine.internals.SpellHelper.ImpactContext;
+import static net.spell_engine.internals.SpellExecution.ImpactContext;
 
 @Mixin(SpellTooltip.class)
 public class SpellTooltipMixin {
     private static float getManaCost(PlayerEntity player,Spell spell, ImpactContext context, float coeff, int proj){
         float mult = (float) ((player.getAttributeValue(Rpgmana.MANA_COST_ATTRIBUTE) * 0.01F));
 
-        return mult* context.total()*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
+        return mult* context.total(null)*(((SpellcostMixinInterface)spell.cost).calculateManaCost() ? (float) Math.max( 20 , 40  * coeff * proj ) :
         ((SpellcostMixinInterface)spell.cost).getManaCost());
     }
 
@@ -82,7 +82,7 @@ public class SpellTooltipMixin {
                     }
                 }
                 MutableText text = Text.literal(" ").append(Text.translatable("rpgmana.manacost").append(Text.literal(": ").append(String.valueOf((int) Math.round(getManaCost(player, spell, context, coeff, proj))))));
-                if (spell.active.cast.channel_ticks > 0) {
+                if (spell.active.cast.channelTicks() > 0) {
                     text.append(Text.translatable("rpgmana.persecond"));
                 }
                 lines.add(text);

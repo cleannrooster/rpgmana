@@ -1,6 +1,7 @@
 package com.cleannrooster.rpgmana;
 
 import com.cleannrooster.rpgmana.client.InGameHud;
+import com.cleannrooster.rpgmana.client.ManaElements;
 import com.cleannrooster.rpgmana.client.StormRenderer;
 import com.cleannrooster.rpgmana.network.ConfigSync;
 import net.fabricmc.api.ClientModInitializer;
@@ -20,7 +21,8 @@ public class RpgmanaClient implements ClientModInitializer {
     public void onInitializeClient() {
         CustomModelStatusEffect.register(STORM.value(), new StormRenderer());
 
-       // HudRenderCallback.EVENT.register(new InGameHud());
+        HudRenderCallback.EVENT.register(new InGameHud());
+        ManaElements.register();
 /*        ClientPlayNetworking.registerGlobalReceiver(ConfigSync.ID, (client, handler, buf, responseSender) -> {
             var config = ConfigSync.read(buf);
             Rpgmana.config = config;

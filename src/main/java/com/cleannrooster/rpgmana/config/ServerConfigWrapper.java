@@ -7,6 +7,6 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 @Config(name = "rpgmana")
 public class ServerConfigWrapper extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Category("server")
-    @ConfigEntry.Gui.Excluded
+    @ConfigEntry.Gui.TransitiveObject
     public ServerConfig server = new ServerConfig();
 }

@@ -1,5 +1,6 @@
 package com.cleannrooster.rpgmana.client;
 
+import com.cleannrooster.globehud.api.GlobeHudApi;
 import com.cleannrooster.rpgmana.Rpgmana;
 import com.cleannrooster.rpgmana.api.ManaInterface;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -9,7 +10,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import net.spell_engine.internals.casting.SpellCasterClient;
+import net.spell_engine.internals.casting.SpellCaster;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -45,10 +46,19 @@ public class InGameHud  implements HudRenderCallback {
 	public void onHudRender(DrawContext drawContext, RenderTickCounter tickCounter) {
 
 		PlayerEntity playerEntity = MinecraftClient.getInstance().player;
+		if (playerEntity == null) {
+			return;
+		}
 
-		if (playerEntity != null && playerEntity.getAttributeInstance(Rpgmana.MANA_ATTRIBUTE) != null) {
+		// globehud renders the globes (including the mana globe registered by ManaElements);
+		// fall through to the legacy mana display only when the mana globe isn't showing
+		if (GlobeHudApi.hudEnabled() && GlobeHudApi.isElementEnabled(ManaElements.MANA_GLOBE)) {
+			return;
+		}
+
+		if (playerEntity.getAttributeInstance(Rpgmana.MANA_ATTRIBUTE) != null) {
 			ManaInterface manaInterface = (ManaInterface) playerEntity;
-			if (manaInterface.getMaxMana() >= 1 && manaInterface.getTimeFull() < 60 && !(playerEntity instanceof SpellCasterClient client && client.isCastingSpell())) {
+			if (manaInterface.getMaxMana() >= 1 && manaInterface.getTimeFull() < 60 && !(playerEntity instanceof SpellCaster.Client client && client.isCastingSpell())) {
 				if(!Rpgmana.clientConfig.alt) {
 
 					int scaledHeight = drawContext.getScaledWindowHeight();

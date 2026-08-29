@@ -31,6 +31,7 @@ public class ServerConfig implements ConfigData {
     public String blacklist_spell_casting_regex = "";
 
     @Comment("Apply mana costs to select spells (Format: 'spellid': 40)")
+    @me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.Excluded
     public LinkedHashMap<String, Integer> spells = new LinkedHashMap<String, Integer>() {
         {
             this.put("examplemod:examplespell", 40);
